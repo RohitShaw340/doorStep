@@ -6,6 +6,9 @@ function Nav() {
       <NavLink to="/" className="Nav_Logo">
         Door Step
       </NavLink>
+      <NavLink to="/Search" className="searchbar">
+        <input type="text" placeholder="Search" />
+      </NavLink>
       <NavLink to="/Login" className="Login">
         Login
       </NavLink>
