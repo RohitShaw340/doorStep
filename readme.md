@@ -1,1 +1,1 @@
-This is a e-commerce website.
+This is an e-commerce website.
