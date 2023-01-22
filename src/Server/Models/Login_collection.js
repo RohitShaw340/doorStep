@@ -15,12 +15,13 @@ const login_schema = new mongo_conn.Schema({
     unique: [true, "Email already exist"],
     validate(value) {
       if (!validator.isEmail(value)) {
-        throw new Error("!!! Enter A Valid Email !!!");
+        throw new Error("Enter A Valid Email");
       }
     },
   },
   phone: {
     type: Number,
+    required: true,
     minlength: 10,
     maxlength: 10,
     unique: [true, "Phone no already exist"],
