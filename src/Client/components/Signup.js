@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Nav from "./Nav";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 function Signup() {
+  const navigate = useNavigate();
   //states:-
   const [type, SetType] = useState("");
   const [name, setName] = useState("");
@@ -45,6 +46,7 @@ function Signup() {
     setAddress("");
     console.log(list);
     axios.post("http://localhost:3001/api/signup/", list);
+    navigate("/Login");
   };
   return (
     <div className="signup_container">
