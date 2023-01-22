@@ -11,6 +11,7 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [password, setPass] = useState("");
+  const [error, setError] = useState("");
   //handelers:-
   const type_handeler = (event) => {
     SetType(event.target.value);
@@ -30,6 +31,7 @@ function Signup() {
   const password_handeler = (event) => {
     setPass(event.target.value);
   };
+  //Submit Handler :-
   const signup_handeler = () => {
     const list = {
       type,
@@ -39,14 +41,34 @@ function Signup() {
       address,
       password,
     };
-    setName("");
-    setMobile("");
-    setEmail("");
-    setPass("");
-    setAddress("");
-    console.log(list);
-    axios.post("http://localhost:3001/api/signup/", list);
-    navigate("/Login");
+
+    axios.post("http://localhost:3001/api/signup/", list).then((res) => {
+      if (res.data == "noerror") {
+        setError("");
+        setName("");
+        setMobile("");
+        setEmail("");
+        setPass("");
+        setAddress("");
+        navigate("/Login");
+      } else {
+        if (res.data.errors) {
+          if (res.data.errors.type) setError(res.data.errors.type.message);
+          else if (res.data.errors.name) setError(res.data.errors.name.message);
+          else if (res.data.errors.phone)
+            setError(res.data.errors.phone.message);
+          else if (res.data.errors.email)
+            setError(res.data.errors.email.message);
+          else if (res.data.errors.address)
+            setError(res.data.errors.address.message);
+          else if (res.data.errors.password)
+            setError(res.data.errors.password.message);
+        } else {
+          if (res.data.keyValue.email) setError("Email Already Taken");
+          else if (res.data.keyValue.phone) setError("Phone No. Already Taken");
+        }
+      }
+    });
   };
   return (
     <div className="signup_container">
@@ -116,6 +138,8 @@ function Signup() {
               onClick={signup_handeler}
               className="Button"
             ></input>
+            <br></br>
+            <p>{error}</p>
           </form>
         </div>
       </div>

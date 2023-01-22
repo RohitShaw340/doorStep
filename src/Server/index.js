@@ -50,8 +50,10 @@ app.post("/api/signup", (req, res) => {
       });
       const record = await rec1.save();
       console.log(record);
+      res.send("noerror");
     } catch (err) {
       console.log(err);
+      res.send(err);
     }
   };
   insert();
