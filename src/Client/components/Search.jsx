@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 const Search = () => {
   return (
     <div>
-      <nav className="Search_Nav">
+      {/* <nav className="Search_Nav">
         <NavLink to="/" className="Nav_Logo">
           Door Step
         </NavLink>
@@ -16,7 +16,7 @@ const Search = () => {
         <NavLink to="/Cart" className="Cart">
           Cart
         </NavLink>
-      </nav>
+      </nav> */}
       Search
     </div>
   );

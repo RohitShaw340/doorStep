@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Nav from "./Nav";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 function Signup() {
@@ -72,7 +71,6 @@ function Signup() {
   };
   return (
     <div className="signup_container">
-      <Nav />
       <div className="content">
         <div className="form">
           <h1 className="login_head">

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Nav from "./Nav";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -44,25 +43,25 @@ function Login(props) {
   };
 
   return (
-    <div className="login_container">
-      <Nav />
-      <div className="content">
-        <div className="form">
+    <div className="login_container bg-slate-300 w-90% m-4">
+      <div className="content justify-center">
+        <div className="form m-auto">
           <h1 className="login_head">
             <center>LOGIN</center>
           </h1>
           <form className="login_form">
-            <lable>Username / Email</lable>
+            <lable className="m-4" >Username / Email</lable>
             <input
               type="text"
-              className="input"
+              className="input m-4"
               value={username}
               onChange={username_handeler}
             ></input>
-            <lable>Password</lable>
+            <br />
+            <lable className="m-4" >Password</lable>
             <input
               type="password"
-              className="input"
+              className="input m-4"
               value={password}
               onChange={password_handeler}
             ></input>
@@ -71,10 +70,10 @@ function Login(props) {
               type="button"
               value="Login"
               onClick={login_handeler}
-              className="Button"
+              className="Button m-4"
             ></input>
-            <p className="error">{err}</p>
-            <Link to="/Signup">Create New Account</Link>
+            <p className="error m-4">{err}</p>
+            <Link to="/Signup" className="m-4">Create New Account</Link>
           </form>
         </div>
       </div>

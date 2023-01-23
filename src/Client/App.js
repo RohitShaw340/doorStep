@@ -7,6 +7,9 @@ import Signup from "./components/Signup";
 import Customer_Home from "./components/Customer_Home";
 import Vendor_Home from "./components/Vendor_Home";
 import { useState } from "react";
+import Nav from "./components/Nav";
+import Footer from "./components/Footer";
+
 function App() {
   const [v_data, setVData] = useState({});
   const [c_data, setCData] = useState({});
@@ -18,21 +21,25 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route
-            path="/Customer_Home"
-            element={<Customer_Home customer_data={c_data} />}
-          ></Route>
-          <Route
-            path="/Vendor_Home"
-            element={<Vendor_Home vendor_data={v_data} />}
-          ></Route>
-          <Route path="/Search" element={<Search />}></Route>
-          <Route path="/Login" element={<Login get_data={info} />}></Route>
-          <Route path="/Signup" element={<Signup />}></Route>
-          <Route path="/Cart" element={<Cart />}></Route>
-        </Routes>
+        <Nav> </Nav>
+        <div className="pt-16">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route
+              path="/Customer_Home"
+              element={<Customer_Home customer_data={c_data} />}
+            ></Route>
+            <Route
+              path="/Vendor_Home"
+              element={<Vendor_Home vendor_data={v_data} />}
+            ></Route>
+            <Route path="/Search" element={<Search />}></Route>
+            <Route path="/Login" element={<Login get_data={info} />}></Route>
+            <Route path="/Signup" element={<Signup />}></Route>
+            <Route path="/Cart" element={<Cart />}></Route>
+          </Routes>
+        </div>
+        <Footer />
       </BrowserRouter>
     </div>
   );
