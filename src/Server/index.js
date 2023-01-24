@@ -1,6 +1,7 @@
 const express = require("express");
 require("./db/login_db");
 const Login_collec = require("./Models/Login_collection");
+const Product_collec = require("./Models/Login_collection");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -49,6 +50,30 @@ app.post("/api/signup", (req, res) => {
         password: req.body.password,
       });
       const record = await rec1.save();
+      console.log(record);
+      res.send("noerror");
+    } catch (err) {
+      console.log(err);
+      res.send(err);
+    }
+  };
+  insert();
+});
+app.post("/api/product", (req, res) => {
+  const insert = async () => {
+    try {
+      const rec = new Login_collec({
+        seller_id: req.body.sid,
+        categories: req.body.categories,
+        product_name: req.body.product_name,
+        stock: req.body.stock,
+        price: req.body.price,
+        quantity: req.body.quantity,
+        image: req.body.image,
+        about: req.body.about,
+        discount: req.body.dis,
+      });
+      const record = await rec.save();
       console.log(record);
       res.send("noerror");
     } catch (err) {
