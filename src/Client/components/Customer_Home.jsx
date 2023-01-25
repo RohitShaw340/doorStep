@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import Adds from "./HomeComponents/Adds";
-import Categories from "./HomeComponents/Catagories";
+import Category_container from "./HomeComponents/Category_container";
 const Customer_Home = (props) => {
   console.log(props.customer_data);
   return (
@@ -19,7 +19,7 @@ const Customer_Home = (props) => {
       <br></br>
       <div className="card">
         <Adds />
-        <Categories />
+        <Category_container />
       </div>
     </div>
   );

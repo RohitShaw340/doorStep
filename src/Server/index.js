@@ -1,10 +1,11 @@
 const express = require("express");
 require("./db/login_db");
 const Login_collec = require("./Models/Login_collection");
-const Product_collec = require("./Models/Login_collection");
+const Product_collec = require("./Models/Product_collection");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const { default: axios } = require("axios");
 
 const port = process.env.PORT || 3001;
 
@@ -62,16 +63,16 @@ app.post("/api/signup", (req, res) => {
 app.post("/api/product", (req, res) => {
   const insert = async () => {
     try {
-      const rec = new Login_collec({
+      const rec = new Product_collec({
         seller_id: req.body.sid,
-        categories: req.body.categories,
-        product_name: req.body.product_name,
+        categories: req.body.cat,
+        product_name: req.body.cap_p_name,
         stock: req.body.stock,
         price: req.body.price,
-        quantity: req.body.quantity,
-        image: req.body.image,
+        quantity: req.body.qty,
+        image: req.body.p_image,
         about: req.body.about,
-        discount: req.body.dis,
+        discount: req.body.discount,
       });
       const record = await rec.save();
       console.log(record);
@@ -82,6 +83,17 @@ app.post("/api/product", (req, res) => {
     }
   };
   insert();
+});
+app.get("/api/getproducts", (req, res) => {
+  const read = async () => {
+    try {
+      const result = await Product_collec.find();
+      res.send(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  read();
 });
 
 app.listen(port);
