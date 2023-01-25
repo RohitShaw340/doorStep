@@ -45,7 +45,7 @@ const Categories = () => {
     <div className="category m-5">
       <div className="ml-5"><h2 className="text-lg">Daily, Breads and Eggs</h2></div>
         <div className="flex flex-col relative">
-        <div className="flex flex-row overflow-x-auto overflow-y-hidden max-w-full">
+        <div className="flex flex-row overflow-x-auto overflow-y-hidden max-w-full ">
           {itemls}
         </div>
       </div>
