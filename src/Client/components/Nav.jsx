@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 function Nav() {
   return (
-    <div className="NavBar p-2 bg-gray-50 border-2 fixed w-full flex flex-col md:flex-row">
+    <div className="NavBar p-2 bg-gray-50 border-2 fixed w-full flex flex-col md:flex-row z-40">
       <NavLink to="/" className="Nav_Logo m-3 ">
         Door Step
       </NavLink>
