@@ -1,6 +1,6 @@
 const mongo_conn = require("mongoose");
 // const validator = require("validator");
-const login_schema = new mongo_conn.Schema({
+const product_schema = new mongo_conn.Schema({
   seller_id: {
     type: String,
     required: true,
@@ -30,7 +30,7 @@ const login_schema = new mongo_conn.Schema({
     required: true,
   },
   quantity: {
-    type: Number,
+    type: String,
     required: true,
   },
   stock: {
@@ -39,5 +39,5 @@ const login_schema = new mongo_conn.Schema({
   },
 });
 
-const Login = new mongo_conn.model("doorstep_api", login_schema);
-module.exports = Login;
+const Product = new mongo_conn.model("product_api", product_schema);
+module.exports = Product;

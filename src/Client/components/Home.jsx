@@ -1,14 +1,15 @@
 import React from "react";
 import Adds from "./HomeComponents/Adds";
-import Categories from "./HomeComponents/Catagories";
-
+import Nav from "./Nav";
+import Category_container from "./HomeComponents/Category_container";
 const Home = () => {
   return (
     <div className="Home">
+      <Nav> </Nav>
       <br></br>
-      <div className="card">
+      <div className="card pt-16">
         <Adds />
-        <Categories />
+        <Category_container />
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-
+import Nav from "./Nav";
 function Login(props) {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -43,38 +43,43 @@ function Login(props) {
   };
 
   return (
-    <div className="login_container bg-slate-300 w-90% m-4">
-      <div className="content justify-center">
-        <div className="form m-auto">
-          <h1 className="login_head">
-            <center>LOGIN</center>
-          </h1>
-          <form className="login_form">
-            <lable className="m-4" >Username / Email</lable>
-            <input
-              type="text"
-              className="input m-4"
-              value={username}
-              onChange={username_handeler}
-            ></input>
-            <br />
-            <lable className="m-4" >Password</lable>
-            <input
-              type="password"
-              className="input m-4"
-              value={password}
-              onChange={password_handeler}
-            ></input>
-            <br></br>
-            <input
-              type="button"
-              value="Login"
-              onClick={login_handeler}
-              className="Button m-4"
-            ></input>
-            <p className="error m-4">{err}</p>
-            <Link to="/Signup" className="m-4">Create New Account</Link>
-          </form>
+    <div>
+      <Nav></Nav>
+      <div className="login_container bg-slate-300 w-90% m-4 pt-16">
+        <div className="content justify-center ">
+          <div className="form m-auto">
+            <h1 className="login_head">
+              <center>LOGIN</center>
+            </h1>
+            <form className="login_form">
+              <lable className="m-4">Username / Email</lable>
+              <input
+                type="text"
+                className="input m-4"
+                value={username}
+                onChange={username_handeler}
+              ></input>
+              <br />
+              <lable className="m-4">Password</lable>
+              <input
+                type="password"
+                className="input m-4"
+                value={password}
+                onChange={password_handeler}
+              ></input>
+              <br></br>
+              <input
+                type="button"
+                value="Login"
+                onClick={login_handeler}
+                className="Button m-4"
+              ></input>
+              <p className="error m-4">{err}</p>
+              <Link to="/Signup" className="m-4">
+                Create New Account
+              </Link>
+            </form>
+          </div>
         </div>
       </div>
     </div>

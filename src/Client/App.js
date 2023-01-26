@@ -7,7 +7,7 @@ import Signup from "./components/Signup";
 import Customer_Home from "./components/Customer_Home";
 import Vendor_Home from "./components/Vendor_Home";
 import { useState } from "react";
-import Nav from "./components/Nav";
+
 import Footer from "./components/Footer";
 
 function App() {
@@ -21,8 +21,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Nav> </Nav>
-        <div className="pt-16">
+        <div className="">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route
