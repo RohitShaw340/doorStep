@@ -48,8 +48,17 @@ const Vendor_Home = (props) => {
   };
   const submit_handeler = () => {
     // const str = p_name;
-    const cap_p_name =
-      p_name.charAt(0).toUpperCase() + p_name.slice(1).toLowerCase();
+
+    // p_name.charAt(0).toUpperCase() + p_name.slice(1).toLowerCase();
+    // const mySentence = "freeCodeCamp is an awesome resource";
+
+    const words = p_name.toLowerCase().split(" ");
+
+    for (let i = 0; i < words.length; i++) {
+      words[i] = words[i][0].toUpperCase() + words[i].slice(1);
+    }
+
+    const cap_p_name = words.join(" ");
     const sid = props.vendor_data.email;
     const list = {
       sid,
