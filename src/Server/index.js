@@ -6,6 +6,7 @@ const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const { default: axios } = require("axios");
+const { useState } = require("react");
 
 const port = process.env.PORT || 3001;
 
@@ -91,6 +92,22 @@ app.get("/api/getproducts", (req, res) => {
       res.send(result);
     } catch (error) {
       console.log(error);
+    }
+  };
+  read();
+});
+app.post("/api/searchproducts", (req, res) => {
+  const req_str = req.body;
+  console.log(req_str);
+  const read = async () => {
+    try {
+      const result = await Product_collec.find({
+        product_name: { $regex: req_str.str },
+      });
+      console.log(result);
+      res.send(result);
+    } catch (err) {
+      console.log(err);
     }
   };
   read();
