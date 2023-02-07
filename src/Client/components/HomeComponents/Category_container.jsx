@@ -2,7 +2,10 @@ import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Categories from "./Catagories";
-const Category_container = () => {
+const Category_container = (props) => {
+  const cart_handler = (data) => {
+    props.item(data);
+  };
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -21,7 +24,7 @@ const Category_container = () => {
   });
   return (
     <div>
-      <Categories categories={obj} />
+      <Categories categories={obj} cart={cart_handler} />
     </div>
   );
 };
