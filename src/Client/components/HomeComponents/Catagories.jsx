@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import Items from "./Items";
 
 const Categories = (props) => {
+  const cart_handler = (data) => {
+    props.cart(data);
+  };
   const all_cat = Object.keys(props.categories);
   return (
     <div>
@@ -13,7 +16,7 @@ const Categories = (props) => {
           <div className="flex flex-col relative">
             <div className="flex flex-row overflow-x-auto overflow-y-hidden max-w-full ">
               {props.categories[data].map((detail) => (
-                <Items item={detail} />
+                <Items item={detail} cart_item={cart_handler} />
               ))}
             </div>
           </div>
