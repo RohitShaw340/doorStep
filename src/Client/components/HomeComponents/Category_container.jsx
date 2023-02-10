@@ -3,9 +3,9 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Categories from "./Catagories";
 const Category_container = (props) => {
-  const cart_handler = (data) => {
-    props.item(data);
-  };
+  // const cart_handler = (data) => {
+  //   props.item(data);
+  // };
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const Category_container = (props) => {
   });
   return (
     <div>
-      <Categories categories={obj} cart={cart_handler} />
+      <Categories categories={obj} cid={props.cid} />
     </div>
   );
 };
