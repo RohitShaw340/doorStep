@@ -219,7 +219,26 @@ app.post("/api/get_product_info_cart", (req, res) => {
   get_product(req.body.pid);
 });
 
-app.post("/api/deletecart", (req, res) => {
+app.post("/api/update_add_cart", (req, res) => {
+  const cart_insert = async (obj) => {
+    const cart = { ...obj.cart_detail };
+    if (cart[obj.data.pid]) {
+      cart[obj.data.pid]++;
+    } else {
+      cart[obj.data.pid] = 1;
+    }
+    try {
+      const result = await Cart_collec.findOneAndUpdate(
+        { cust_id: obj.data.cust_id },
+        { $set: { cart_detail: { ...cart } } },
+        { new: true }
+      );
+      res.send(result.cart_detail);
+      console.log(result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const find_cid = async (data) => {
     try {
       const record = await Cart_collec.find({
@@ -227,17 +246,55 @@ app.post("/api/deletecart", (req, res) => {
       });
 
       if (record.length > 0) {
-        console.log("1");
         const obj = { data: data, cart_detail: record[0].cart_detail };
-        cart_update(obj);
-      } else {
-        console.log("0");
-        new_cart_insert(data);
+        cart_insert(obj);
       }
     } catch (err) {
       console.log(err);
     }
   };
+
+  console.log(req.body);
+  const data = req.body;
+  find_cid(req.body);
+});
+app.post("/api/update_delete_cart", (req, res) => {
+  const cart_insert = async (obj) => {
+    const cart = { ...obj.cart_detail };
+    if (cart[obj.data.pid] > 0) {
+      cart[obj.data.pid]--;
+    }
+    // else {
+    //   delete cart[obj.data.pid];
+    // }
+    try {
+      const result = await Cart_collec.findOneAndUpdate(
+        { cust_id: obj.data.cust_id },
+        { $set: { cart_detail: { ...cart } } },
+        { new: true }
+      );
+      res.send(result.cart_detail);
+      console.log(result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const find_cid = async (data) => {
+    try {
+      const record = await Cart_collec.find({
+        cust_id: data.cust_id,
+      });
+
+      if (record.length > 0) {
+        const obj = { data: data, cart_detail: record[0].cart_detail };
+        cart_insert(obj);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  console.log(req.body);
   const data = req.body;
   find_cid(req.body);
 });

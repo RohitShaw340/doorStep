@@ -36,10 +36,14 @@ const Cart = (props) => {
   return (
     <div>
       cart
-      {items.map((data) => (
-        // console.log(data);
-        <Cart_Item detail={data} cust_id={props.cid.email}></Cart_Item>
-      ))}
+      {items.map(
+        (data) =>
+          data[1] > 0 && (
+            <div>
+              <Cart_Item detail={data} cust_id={props.cid.email}></Cart_Item>
+            </div>
+          )
+      )}
     </div>
   );
 };
