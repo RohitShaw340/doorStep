@@ -38,7 +38,7 @@ const Cart = (props) => {
       cart
       {items.map((data) => (
         // console.log(data);
-        <Cart_Item detail={data}></Cart_Item>
+        <Cart_Item detail={data} cust_id={props.cid.email}></Cart_Item>
       ))}
     </div>
   );

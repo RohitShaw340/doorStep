@@ -144,6 +144,7 @@ app.post("/api/insertcart", (req, res) => {
         { $set: { cart_detail: { ...cart } } },
         { new: true }
       );
+      // res.send(cart[obj.data.pid]);
       console.log(result);
     } catch (err) {
       console.log(err);
@@ -174,23 +175,6 @@ app.post("/api/insertcart", (req, res) => {
 });
 
 app.post("/api/displaycart", (req, res) => {
-  // const [product_list, setproduct] = useState([]);
-  var product = [];
-  const get_product = async (data) => {
-    try {
-      const record = await Product_collec.find({
-        _id: data.pid,
-      });
-      const obj = { ...record[0] };
-      obj.order_qty = data.qty;
-      // setproduct([...product_list, obj]);
-      product = [...product, obj];
-      console.log(product);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const find_cust = async (data) => {
     try {
       const record = await Cart_collec.find({
@@ -211,7 +195,6 @@ app.post("/api/displaycart", (req, res) => {
         // new_cart_insert(data);
         res.send({ empty: true });
       }
-      console.log(product);
       // console.log(product_list);s
     } catch (err) {
       console.log(err);
@@ -219,6 +202,44 @@ app.post("/api/displaycart", (req, res) => {
   };
   const cust_id = req.body.id;
   find_cust(cust_id);
+});
+app.post("/api/get_product_info_cart", (req, res) => {
+  const get_product = async (data) => {
+    try {
+      const record = await Product_collec.find({
+        _id: data,
+      });
+      // console.log(record[0]);
+      res.send(record[0]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  console.log(req.body);
+  get_product(req.body.pid);
+});
+
+app.post("/api/deletecart", (req, res) => {
+  const find_cid = async (data) => {
+    try {
+      const record = await Cart_collec.find({
+        cust_id: data.cust_id,
+      });
+
+      if (record.length > 0) {
+        console.log("1");
+        const obj = { data: data, cart_detail: record[0].cart_detail };
+        cart_update(obj);
+      } else {
+        console.log("0");
+        new_cart_insert(data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const data = req.body;
+  find_cid(req.body);
 });
 
 app.listen(port);
