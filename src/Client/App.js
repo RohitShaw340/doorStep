@@ -9,6 +9,7 @@ import Vendor_Home from "./components/Vendor_Home";
 import { useState } from "react";
 
 import Footer from "./components/Footer";
+import Checkout from "./components/Checkout";
 
 function App() {
   const [v_data, setVData] = useState({});
@@ -46,6 +47,10 @@ function App() {
             <Route path="/Login" element={<Login get_data={info} />}></Route>
             <Route path="/Signup" element={<Signup />}></Route>
             <Route path="/Cart" element={<Cart cid={c_data} />}></Route>
+            <Route
+              path="/Checkout"
+              element={<Checkout data={c_data} />}
+            ></Route>
           </Routes>
         </div>
         <Footer />

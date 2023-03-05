@@ -1,23 +1,19 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Cart_Item from "./Cart_Item";
+
 const Cart = (props) => {
   const navigate = useNavigate();
 
-  const [cart_data, set_cart] = useState({});
   const [items, setItems] = useState([]);
+
   const display_cart = async (id) => {
     const response = await axios.post("http://localhost:3001/api/displaycart", {
       id,
     });
     console.log(response.data);
     const items_list = Object.entries(response.data);
-    // items_list.map((data) => {
-    //   setItems(
-    //     (prev) => (prev = [...items, { id: data, qty: response.data[data] }])
-    //   );
-    // });
     setItems((prev) => (prev = [...items_list]));
     console.log(items_list);
 
@@ -34,16 +30,25 @@ const Cart = (props) => {
   }, []);
 
   return (
-    <div>
+    <div className="cart">
       cart
       {items.map(
         (data) =>
           data[1] > 0 && (
             <div>
-              <Cart_Item detail={data} cust_id={props.cid.email}></Cart_Item>
+              <Cart_Item
+                detail={data}
+                cust_id={props.cid.email}
+                // total={price_handler}
+              ></Cart_Item>
             </div>
           )
       )}
+      <div>
+        <NavLink to="/checkout">
+          <button>Checkout</button>
+        </NavLink>
+      </div>
     </div>
   );
 };
