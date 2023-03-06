@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 const Checkout = (props) => {
   const [items, setItems] = useState([]);
   const [seller, setSeller] = useState({});
   const [product, setProduct] = useState([]);
   const [subtotal, setSubTotal] = useState(0);
   const [total, setTotal] = useState(0);
+  const navigate = useNavigate();
 
   const display_cart = async (id) => {
     setTotal((prev) => 0);
@@ -37,7 +40,7 @@ const Checkout = (props) => {
           if (prev[seller_id]) {
             prev[seller_id].push([id, name, qty, amount, stock]);
           } else {
-            prev[seller_id] = [[id, name, qty, amount, stock]];
+            prev[seller_id] = [[0], [id, name, qty, amount, stock]];
           }
           return prev;
         });
@@ -75,7 +78,14 @@ const Checkout = (props) => {
   //   console.log(seller);
   //   console.log(total);
 
-  const buy_handler = () => {};
+  const buy_handler = async () => {
+    axios.post("http://localhost:3001/add/orders", {
+      cid: props.data.email,
+      order: seller,
+    });
+    alert("Your Order has Been placed Success fully");
+    navigate("/Customer_home");
+  };
 
   return (
     <div>

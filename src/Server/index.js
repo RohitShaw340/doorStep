@@ -7,12 +7,14 @@ const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const { default: axios } = require("axios");
-const { useState } = require("react");
+const Orders_collec = require("./Models/Orders_collec");
 
 const port = process.env.PORT || 3001;
 
 app.use(express.json());
 app.use(cors());
+
+// LOGIN :-
 
 app.post("/api/login", (req, res) => {
   const read = async () => {
@@ -40,6 +42,9 @@ app.post("/api/login", (req, res) => {
   };
   read();
 });
+
+// SIGNUP :-
+
 app.post("/api/signup", (req, res) => {
   // console.log(req.body);
   const insert = async () => {
@@ -62,6 +67,9 @@ app.post("/api/signup", (req, res) => {
   };
   insert();
 });
+
+// PRODUCTS:-
+
 app.post("/api/product", (req, res) => {
   const insert = async () => {
     try {
@@ -97,6 +105,9 @@ app.get("/api/getproducts", (req, res) => {
   };
   read();
 });
+
+// SEARCH :-
+
 app.post("/api/searchproducts", (req, res) => {
   const req_str = req.body;
   console.log(req_str);
@@ -114,6 +125,8 @@ app.post("/api/searchproducts", (req, res) => {
   read();
 });
 
+// CART :-
+
 app.post("/api/insertcart", (req, res) => {
   const new_cart_insert = async (data) => {
     try {
@@ -130,7 +143,6 @@ app.post("/api/insertcart", (req, res) => {
     }
   };
   const cart_insert = async (obj) => {
-    // const new_cart = {};
     const cart = { ...obj.cart_detail };
     if (cart[obj.data.pid]) {
       cart[obj.data.pid]++;
@@ -144,7 +156,6 @@ app.post("/api/insertcart", (req, res) => {
         { $set: { cart_detail: { ...cart } } },
         { new: true }
       );
-      // res.send(cart[obj.data.pid]);
       console.log(result);
     } catch (err) {
       console.log(err);
@@ -183,19 +194,12 @@ app.post("/api/displaycart", (req, res) => {
 
       if (record.length > 0) {
         console.log("1");
-        // const obj = { data: data, cart_detail: record[0].cart_detail };
-        // cart_insert(obj);
-        // const items = Object.keys(record[0].cart_detail);
-        // items.map(async (data) => {
-        //   await get_product({ pid: data, qty: record[0].cart_detail[data] });
-        // });
         res.send(record[0].cart_detail);
       } else {
         console.log("0");
         // new_cart_insert(data);
         res.send({ empty: true });
       }
-      // console.log(product_list);s
     } catch (err) {
       console.log(err);
     }
@@ -209,7 +213,6 @@ app.post("/api/get_product_info_cart", (req, res) => {
       const record = await Product_collec.find({
         _id: data,
       });
-      // console.log(record[0]);
       res.send(record[0]);
     } catch (err) {
       console.log(err);
@@ -264,9 +267,6 @@ app.post("/api/update_delete_cart", (req, res) => {
     if (cart[obj.data.pid] > 0) {
       cart[obj.data.pid]--;
     }
-    // else {
-    //   delete cart[obj.data.pid];
-    // }
     try {
       const result = await Cart_collec.findOneAndUpdate(
         { cust_id: obj.data.cust_id },
@@ -297,6 +297,61 @@ app.post("/api/update_delete_cart", (req, res) => {
   console.log(req.body);
   const data = req.body;
   find_cid(req.body);
+});
+
+// ORDERS :-
+
+app.post("/add/orders", (req, res) => {
+  const d = req.body;
+  console.log(d);
+  const insert = async (data) => {
+    try {
+      const rec = new Orders_collec({
+        cust_id: data.cid,
+        order: data.order,
+        status: "not dilivered",
+      });
+      const record = await rec.save();
+      console.log(record);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const update_stock = async (data) => {
+    try {
+      const arr = Object.entries(data.order);
+      console.log(arr);
+      arr.map(async (rec) => {
+        rec[1].map(async (products) => {
+          const id = products[0];
+          if (typeof id == "string") {
+            // console.log(products, id);
+            const result = await Product_collec.findOneAndUpdate(
+              { _id: id },
+              { $set: { stock: products[4] - products[2] } },
+              { new: true }
+            );
+            console.log(result);
+          }
+        });
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const clear_cart = async (data) => {
+    try {
+      const result = await Cart_collec.findOneAndUpdate(
+        { cust_id: data.cid },
+        { $set: { cart_detail: {} } }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  update_stock(d);
+  insert(d);
+  clear_cart(d);
 });
 
 app.listen(port);

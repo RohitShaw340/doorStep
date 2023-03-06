@@ -6,6 +6,7 @@ import Search from "./components/Search";
 import Signup from "./components/Signup";
 import Customer_Home from "./components/Customer_Home";
 import Vendor_Home from "./components/Vendor_Home";
+import TrackOrders from "./components/TrackOrders";
 import { useState } from "react";
 
 import Footer from "./components/Footer";
@@ -50,6 +51,10 @@ function App() {
             <Route
               path="/Checkout"
               element={<Checkout data={c_data} />}
+            ></Route>
+            <Route
+              path="/TrackOrder"
+              element={<TrackOrders cid={c_data} />}
             ></Route>
           </Routes>
         </div>
