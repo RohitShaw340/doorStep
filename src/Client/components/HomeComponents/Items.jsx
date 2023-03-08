@@ -11,16 +11,8 @@ const Items = (props) => {
       const confirmed = window.confirm("First LogIn / Sgnup for placing order");
       if (confirmed) navigate("/Login");
     } else {
-      try {
-        const list = { cust_id: props.cid, pid: props.item._id };
-        const res = await axios.post(
-          "http://localhost:3001/api/insertcart",
-          list
-        );
-        // console.log(res);
-      } catch (err) {
-        console.log(err);
-      }
+      const list = { cust_id: props.cid, pid: props.item._id };
+      axios.post("http://localhost:3001/api/insertcart", list);
     }
   };
   return (

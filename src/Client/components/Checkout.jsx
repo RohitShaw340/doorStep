@@ -79,7 +79,7 @@ const Checkout = (props) => {
   //   console.log(total);
 
   const buy_handler = async () => {
-    axios.post("http://localhost:3001/add/orders", {
+    const res = await axios.post("http://localhost:3001/add/orders", {
       cid: props.data.email,
       order: seller,
     });

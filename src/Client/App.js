@@ -20,6 +20,12 @@ function App() {
     if (info.type == "vendor") setVData(info);
     else setCData(info);
   };
+  const logout = () => {
+    console.log("cleared");
+    setCData({
+      email: "no_id",
+    });
+  };
   // const cart_handler = (data) => {
   //   if (data) {
   //     setCart_data(data);
@@ -38,13 +44,16 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route
               path="/Customer_Home"
-              element={<Customer_Home customer_data={c_data} />}
+              element={
+                <Customer_Home clear_cust={logout} customer_data={c_data} />
+              }
             ></Route>
             <Route
               path="/Vendor_Home"
               element={<Vendor_Home vendor_data={v_data} />}
             ></Route>
-            <Route path="/Search" element={<Search />}></Route>
+            {console.log(c_data)}
+            <Route path="/Search" element={<Search cid={c_data} />}></Route>
             <Route path="/Login" element={<Login get_data={info} />}></Route>
             <Route path="/Signup" element={<Signup />}></Route>
             <Route path="/Cart" element={<Cart cid={c_data} />}></Route>

@@ -13,9 +13,14 @@ const Cart = (props) => {
       id,
     });
     console.log(response.data);
-    const items_list = Object.entries(response.data);
-    setItems((prev) => (prev = [...items_list]));
-    console.log(items_list);
+    if (response.data.empty) {
+      alert("Please login First to place order");
+      navigate("/");
+    } else {
+      const items_list = Object.entries(response.data);
+      setItems((prev) => (prev = [...items_list]));
+      console.log(items_list);
+    }
 
     // set_cart(prev => prev={...response.data})
   };
@@ -31,7 +36,7 @@ const Cart = (props) => {
 
   return (
     <div className="cart">
-      cart
+      <NavLink to="/Customer_Home">Home</NavLink>
       {items.map(
         (data) =>
           data[1] > 0 && (

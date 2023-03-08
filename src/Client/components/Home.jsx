@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Adds from "./HomeComponents/Adds";
 import Nav from "./Nav";
 import Category_container from "./HomeComponents/Category_container";

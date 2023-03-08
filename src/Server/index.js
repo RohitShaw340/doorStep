@@ -3,6 +3,7 @@ require("./db/login_db");
 const Login_collec = require("./Models/Login_collection");
 const Product_collec = require("./Models/Product_collection");
 const Cart_collec = require("./Models/Cart_collection");
+const Seller_collec = require("./Models/Sellers_collection");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -137,9 +138,10 @@ app.post("/api/insertcart", (req, res) => {
         cart_detail: { ...obj },
       });
       const record = await rec.save();
-      console.log(record);
+      // console.log(record);
     } catch (err) {
       console.log(err);
+      process.exit();
     }
   };
   const cart_insert = async (obj) => {
@@ -156,6 +158,7 @@ app.post("/api/insertcart", (req, res) => {
         { $set: { cart_detail: { ...cart } } },
         { new: true }
       );
+      res.send(result);
       console.log(result);
     } catch (err) {
       console.log(err);
@@ -182,7 +185,9 @@ app.post("/api/insertcart", (req, res) => {
 
   console.log(req.body);
   const data = req.body;
-  find_cid(req.body);
+  if (req.body.cust_id) {
+    find_cid(req.body);
+  }
 });
 
 app.post("/api/displaycart", (req, res) => {
@@ -207,6 +212,7 @@ app.post("/api/displaycart", (req, res) => {
   const cust_id = req.body.id;
   find_cust(cust_id);
 });
+
 app.post("/api/get_product_info_cart", (req, res) => {
   const get_product = async (data) => {
     try {
@@ -242,6 +248,7 @@ app.post("/api/update_add_cart", (req, res) => {
       console.log(err);
     }
   };
+
   const find_cid = async (data) => {
     try {
       const record = await Cart_collec.find({
@@ -254,6 +261,7 @@ app.post("/api/update_add_cart", (req, res) => {
       }
     } catch (err) {
       console.log(err);
+      process.exit();
     }
   };
 
@@ -261,6 +269,48 @@ app.post("/api/update_add_cart", (req, res) => {
   const data = req.body;
   find_cid(req.body);
 });
+
+app.post("/api/empty_cart", (req, res) => {
+  const cart_delete = async (obj) => {
+    const cart = { ...obj.cart_detail };
+    if (cart[obj.data.pid]) {
+      cart[obj.data.pid] = 0;
+    } else {
+      cart[obj.data.pid] = 0;
+    }
+    try {
+      const result = await Cart_collec.findOneAndUpdate(
+        { cust_id: obj.data.cust_id },
+        { $set: { cart_detail: { ...cart } } },
+        { new: true }
+      );
+      res.send(result.cart_detail);
+      console.log(result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const find_cid = async (data) => {
+    try {
+      const record = await Cart_collec.find({
+        cust_id: data.cust_id,
+      });
+
+      if (record.length > 0) {
+        const obj = { data: data, cart_detail: record[0].cart_detail };
+        cart_delete(obj);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  console.log(req.body);
+  const data = req.body;
+  find_cid(req.body);
+});
+
 app.post("/api/update_delete_cart", (req, res) => {
   const cart_insert = async (obj) => {
     const cart = { ...obj.cart_detail };
@@ -304,6 +354,39 @@ app.post("/api/update_delete_cart", (req, res) => {
 app.post("/add/orders", (req, res) => {
   const d = req.body;
   console.log(d);
+
+  const update_seller_order = async (data) => {
+    try {
+      const sellers = Object.entries(data.order);
+      console.log(sellers);
+      sellers.map(async (i) => {
+        console.log(i);
+        const rec = new Seller_collec({
+          order_id: data._id,
+          seller_id: i[0],
+          customer_id: data.cust_id,
+          order: i[1],
+          status: 0,
+        });
+        const result = await rec.save();
+        console.log(result);
+      });
+      res.send({ seller: true });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const clear_cart = async (data) => {
+    try {
+      const result = await Cart_collec.findOneAndUpdate(
+        { cust_id: data.cid },
+        { $set: { cart_detail: {} } }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const insert = async (data) => {
     try {
       const rec = new Orders_collec({
@@ -312,6 +395,8 @@ app.post("/add/orders", (req, res) => {
         status: "not dilivered",
       });
       const record = await rec.save();
+      update_seller_order(record);
+      clear_cart(d);
       console.log(record);
     } catch (err) {
       console.log(err);
@@ -339,19 +424,9 @@ app.post("/add/orders", (req, res) => {
       console.log(err);
     }
   };
-  const clear_cart = async (data) => {
-    try {
-      const result = await Cart_collec.findOneAndUpdate(
-        { cust_id: data.cid },
-        { $set: { cart_detail: {} } }
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  };
+
   update_stock(d);
   insert(d);
-  clear_cart(d);
 });
 
 app.listen(port);
