@@ -3,9 +3,16 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Items from "./HomeComponents/Items";
 
-const Search = () => {
+const Search = (props) => {
   const [search_str, setSearch_str] = useState("");
   const [result, setResult] = useState([]);
+  const [email, set_email] = useState("no_id");
+  useEffect(() => {
+    if (props.cid.email) {
+      console.log("email set", props.cid.email);
+      set_email((prev) => props.cid.email);
+    }
+  }, []);
 
   const setSearch = (event) => {
     setSearch_str(event.target.value);
@@ -39,9 +46,15 @@ const Search = () => {
   return (
     <div>
       <nav className="Search_Nav p-2 bg-gray-50 border-2 fixed w-full flex flex-col md:flex-row z-40">
-        <NavLink to="/" className="Nav_Logo">
-          Door Step
-        </NavLink>
+        {props.cid.email != "no_id" ? (
+          <NavLink to="/Customer_home" className="Nav_Logo">
+            Door Step
+          </NavLink>
+        ) : (
+          <NavLink to="/" className="Nav_Logo">
+            Door Step
+          </NavLink>
+        )}
         <input
           classNmae="srarchbar"
           placeholder="Search for items"
@@ -56,7 +69,7 @@ const Search = () => {
       </nav>
       <div className="search pt-16">
         {result.map((details) => (
-          <Items item={details}></Items>
+          <Items cid={email} item={details}></Items>
         ))}
       </div>
     </div>

@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Cart_Item = (props) => {
   const item_qty = props.detail[1];
   const [qty, setQty] = useState(item_qty);
   const [product, setProduct] = useState({});
+  const navigate = useNavigate();
   // const [total,setTotal] = useState(0);
   // const [discounted_price,setDisc]=useState(0)
 
@@ -46,6 +48,23 @@ const Cart_Item = (props) => {
       list
     );
     setProduct((prev) => ({ ...res.data }));
+    console.log(qty, res.data.stock);
+    if (qty > res.data.stock) {
+      const list = { cust_id: props.cust_id, pid: props.detail[0] };
+      await axios
+        .post("http://localhost:3001/api/empty_cart", list)
+        .then(async (result) => {
+          console.log(res.data);
+          setQty((prev) => (prev = result.data[props.detail[0]]));
+          alert(
+            "only " +
+              res.data.stock +
+              " pices of " +
+              res.data.product_name +
+              " are available "
+          );
+        });
+    }
     console.log(res.data);
   };
 

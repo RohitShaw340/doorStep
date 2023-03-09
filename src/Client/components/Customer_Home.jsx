@@ -22,7 +22,15 @@ const Customer_Home = (props) => {
         <NavLink to="/Cart" className="Cart m-3  ">
           Cart
         </NavLink>
-        <NavLink to="/">LogOut</NavLink>
+        <NavLink to="/">
+          <button
+            onClick={() => {
+              props.clear_cust();
+            }}
+          >
+            LogOut
+          </button>
+        </NavLink>
       </nav>
       <br></br>
       <div className="card">
