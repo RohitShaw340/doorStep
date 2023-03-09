@@ -357,6 +357,7 @@ app.post("/add/orders", (req, res) => {
 
   const update_seller_order = async (data) => {
     try {
+      const date = new Date();
       const sellers = Object.entries(data.order);
       console.log(sellers);
       sellers.map(async (i) => {
@@ -367,6 +368,7 @@ app.post("/add/orders", (req, res) => {
           customer_id: data.cust_id,
           order: i[1],
           status: 0,
+          date: date,
         });
         const result = await rec.save();
         console.log(result);
@@ -389,10 +391,13 @@ app.post("/add/orders", (req, res) => {
 
   const insert = async (data) => {
     try {
+      const date = new Date();
       const rec = new Orders_collec({
         cust_id: data.cid,
         order: data.order,
-        status: "not dilivered",
+        status: "Not Delivered",
+        date: date,
+        total: data.total,
       });
       const record = await rec.save();
       update_seller_order(record);
@@ -427,6 +432,75 @@ app.post("/add/orders", (req, res) => {
 
   update_stock(d);
   insert(d);
+});
+
+// TRACK ORDERS :-
+
+app.post("/track/order", (req, res) => {
+  const d = req.body;
+  const get_order = async (data) => {
+    try {
+      const result = await Orders_collec.find({
+        cust_id: data.id,
+      });
+      console.log(result);
+      res.send(result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  console.log(d);
+  get_order(d);
+});
+
+// VENDORS INFO :-
+
+app.post("/get/vendors/product", (req, res) => {
+  const get_products = async (id) => {
+    try {
+      console.log(id);
+      const result = await Product_collec.find({
+        seller_id: id,
+      });
+      console.log(result);
+      if (result) {
+        res.send(result);
+      } else {
+        console.log("no data");
+        res.send([]);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  console.log(req.body);
+  get_products(req.body.vid);
+});
+
+app.post("/update/product", (req, res) => {
+  const update_product = async (id) => {
+    try {
+      const result = await Product_collec.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: {
+            categories: req.body.cat,
+            product_name: req.body.cap_p_name,
+            stock: req.body.stock,
+            price: req.body.price,
+            quantity: req.body.qty,
+            image: req.body.p_image,
+            about: req.body.about,
+            discount: req.body.discount,
+          },
+        },
+        { new: true }
+      );
+      console.log(result);
+      res.send(result);
+    } catch (err) {}
+  };
+  update_product(req.body.pid);
 });
 
 app.listen(port);
