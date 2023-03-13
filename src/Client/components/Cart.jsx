@@ -35,7 +35,7 @@ const Cart = (props) => {
   }, []);
 
   return (
-    <div className="cart colorbg">
+    <div className="cart">
       <NavLink to="/Customer_Home">Home</NavLink>
       {items.map(
         (data) =>

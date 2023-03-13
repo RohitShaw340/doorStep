@@ -75,7 +75,8 @@ const Cart_Item = (props) => {
 
   return (
     <div className="" class="grid grid-cols-2 gap-4 border-4 m-4 rounded-lg">
-      <div class=" justify-center"><img src={product.image} alt="" class="w-[154px] h-[154px] rounded-lg" classname="img"></img></div>
+      <div className="">
+      <img src={product.image} alt="" classname="img"></img></div>
       <div>
       <div className="prod_name">{product.product_name}</div>
       <div>
@@ -83,12 +84,12 @@ const Cart_Item = (props) => {
       </div>
       <div>{((100 - product.discount) * product.price) / 100}$ </div>
       <div> {product.quantity} </div>
-      <div className="del inline-block text-3xl ">
-        <input class="rounded-full cursor-pointer" type="button" value="- " onClick={remove_product}></input>
+      <div className="del">
+        <input type="button" value="-" onClick={remove_product}></input>
       </div>
-      <div className="prod_qty inline-block text-1xl">{qty}</div>
-      <div class="add inline-block text-3xl ">
-        <input class="rounded-full cursor-pointer" type="button" value=" +" onClick={add_product}></input>
+      <div className="prod_qty">{qty}</div>
+      <div class="add">
+        <input type="button" value="+" onClick={add_product}></input>
       </div>
       <div>{(qty * product.price * (100 - product.discount)) / 100}</div>
       </div>
