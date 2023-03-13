@@ -84,21 +84,6 @@ const UpdateProduct = (props) => {
         <NavLink to="/Vendor_Home" className="Nav_Logo m-3">
           Door Step
         </NavLink>
-        {/* <div className="flex md:ml-auto ml-0 md:mr-auto mr-0 w-5/6 align-middle">
-          <div className="flex flex-col md:flex-row flex-wrap md:ml-auto ml-0 align-middle">
-            <div className="info m-3">{props.vendor_data.name}</div>
-            <NavLink to="/view_products"> View Products </NavLink>
-            <NavLink to="/" className="m-3">
-              <button
-                onClick={() => {
-                  props.clear_cust();
-                }}
-              >
-                LogOut
-              </button>
-            </NavLink>
-          </div>
-        </div> */}
       </nav>
       <br></br>
       <div className="pt-16">

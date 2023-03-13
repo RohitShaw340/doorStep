@@ -2,12 +2,17 @@ import React from "react";
 
 const Track_items = (props) => {
   console.log(props.items);
+  const utcdate = new Date(props.items.date);
+  const istTime = new Date(utcdate.getTime() + 5.5 * 60 * 60 * 1000); // add offset to UTC time
+  const date = istTime.toLocaleDateString("en-IN");
+  const time = istTime.toLocaleTimeString("en-IN");
+
   const items = Object.entries(props.items.order);
   console.log(items);
   return (
     <div>
       <div>Order-ID :{props.items._id}</div>
-      <div>Booking Date : {props.items.date}</div>
+      <div>Booking Date : {date + " - " + time}</div>
       <div>
         <table>
           <tr>

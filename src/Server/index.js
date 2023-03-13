@@ -503,4 +503,79 @@ app.post("/update/product", (req, res) => {
   update_product(req.body.pid);
 });
 
+app.post("/get/seller/orders", (req, res) => {
+  const get_orders = async (id) => {
+    try {
+      const result = await Seller_collec.find({ seller_id: id });
+      console.log(result);
+      res.send(result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  get_orders(req.body.vid);
+});
+
+app.post("/get/customer/details", (req, res) => {
+  const get_customer = async (id) => {
+    try {
+      const result = await Login_collec.find({ email: id });
+      console.log(result);
+      res.send({
+        email: result[0].email,
+        name: result[0].name,
+        phone: result[0].phone,
+        address: result[0].address,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  get_customer(req.body.cid);
+});
+
+app.post("/dispatch/product", (req, res) => {
+  const update_order_status = async (data) => {
+    try {
+      let result = await Orders_collec.find({ _id: data.oid });
+      // let temp =
+      result[0].order[data.sid][0][0] = 1;
+      const arr = Object.entries(result[0].order);
+      console.log(arr);
+      const utcdate = new Date();
+      const istTime = new Date(utcdate.getTime()); // add offset to UTC time
+      const date = istTime.toLocaleDateString("en-IN");
+      const time = istTime.toLocaleTimeString("en-IN");
+      let all_dispached = "Delivered on " + date + " at " + time;
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i][1][0][0] == 0) {
+          all_dispached = "Not Delivered";
+          break;
+        }
+      }
+      const result2 = await Orders_collec.findOneAndUpdate(
+        { _id: data.oid },
+        { $set: { order: result[0].order, status: all_dispached } }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const update_seller_info = async (data) => {
+    try {
+      const result = await Seller_collec.findOneAndUpdate(
+        { order_id: data.oid, seller_id: data.sid },
+        { $set: { status: 1 } },
+        { new: true }
+      );
+      console.log(result);
+      update_order_status(data);
+      res.send(result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  update_seller_info(req.body);
+});
+
 app.listen(port);

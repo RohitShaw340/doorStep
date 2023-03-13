@@ -13,6 +13,7 @@ import Footer from "./components/Footer";
 import Checkout from "./components/Customer_Components/Checkout";
 import ViewProducts from "./components/Vendors_Components/ViewProducts";
 import UpdateProduct from "./components/Vendors_Components/UpdateProduct";
+import ManageOrders from "./components/Vendors_Components/ManageOrders";
 
 function App() {
   const [v_data, setVData] = useState({});
@@ -89,6 +90,10 @@ function App() {
             <Route
               path="/update_product"
               element={<UpdateProduct item={product} />}
+            ></Route>
+            <Route
+              path="/manage_order"
+              element={<ManageOrders vid={v_data} />}
             ></Route>
           </Routes>
         </div>

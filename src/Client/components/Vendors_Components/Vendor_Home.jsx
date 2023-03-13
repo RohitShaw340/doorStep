@@ -91,7 +91,14 @@ const Vendor_Home = (props) => {
         <div className="flex md:ml-auto ml-0 md:mr-auto mr-0 w-5/6 align-middle">
           <div className="flex flex-col md:flex-row flex-wrap md:ml-auto ml-0 align-middle">
             <div className="info m-3">{props.vendor_data.name}</div>
-            <NavLink to="/view_products"> View Products </NavLink>
+            <NavLink className="info m-3" to="/view_products">
+              {" "}
+              View Products{" "}
+            </NavLink>
+            <NavLink className="info m-3" to="/manage_order">
+              {" "}
+              Manage Orders{" "}
+            </NavLink>
             <NavLink to="/" className="m-3">
               <button
                 onClick={() => {
