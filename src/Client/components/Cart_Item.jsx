@@ -74,10 +74,8 @@ const Cart_Item = (props) => {
   }, []);
 
   return (
-    <div className="" class="grid grid-cols-2 gap-4 border-4 m-4 rounded-lg">
-      <div className="">
-      <img src={product.image} alt="" classname="img"></img></div>
-      <div>
+    <div className="">
+      <img src={product.image} alt="" classname="img"></img>
       <div className="prod_name">{product.product_name}</div>
       <div>
         <strike>{product.price}$ </strike>
@@ -92,7 +90,6 @@ const Cart_Item = (props) => {
         <input type="button" value="+" onClick={add_product}></input>
       </div>
       <div>{(qty * product.price * (100 - product.discount)) / 100}</div>
-      </div>
     </div>
   );
 };
